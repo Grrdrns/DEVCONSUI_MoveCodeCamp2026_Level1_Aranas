@@ -5,7 +5,6 @@ module portfolio::portfolio {
     use sui::package;
     use sui::display;
     use std::string::{Self, String};
-    use std::vector;
 
     struct Portfolio has key, store {
         id: UID,
@@ -60,6 +59,7 @@ module portfolio::portfolio {
         transfer::public_transfer(display, tx_context::sender(ctx));
     }
 
+    #[allow(lint(self_transfer))]
     public fun create_portfolio(
         name: String,
         course: String,
@@ -80,6 +80,6 @@ module portfolio::portfolio {
             github_url,
             skills,
         };
-        transfer::transfer(portfolio, tx_context::sender(ctx));
+        transfer::public_transfer(portfolio, tx_context::sender(ctx));
     }
 }
